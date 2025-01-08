@@ -8,7 +8,7 @@ function SubmitButton({ selectedTraitors, teamName }) {
   const { user, isLoaded } = useUser();
   let navigate = useNavigate();
 
-  const isTeamNameValid = teamName && teamName.length <= 25;
+  const isTeamNameValid = teamName && teamName.length <= 20;
   const isFormValid = selectedTraitors.length === 4 && isTeamNameValid;
 
   let errorMessage = "";
@@ -16,8 +16,8 @@ function SubmitButton({ selectedTraitors, teamName }) {
     errorMessage = "Please Select 4 Traitors";
   } else if (!teamName) {
     errorMessage = "Please Add a Valid Team Name";
-  } else if (teamName.length > 25) {
-    errorMessage = "Please Limit Your Team Name to 25 Characters";
+  } else if (teamName.length > 20) {
+    errorMessage = "Please Limit Your Team Name to 20 Characters";
   }
 
   async function handleClick() {

@@ -51,7 +51,7 @@ function TraitorsLayout() {
     <div className="flex flex-col items-center justify-center w-full">
       {userAccount == {} ? null : (
         <div className="flex flex-col items-center justify-center w-full">
-          <div>
+          <div className="flex flex-col items-center justify-center w-1/2">
             <Input
               type="text"
               placeholder="Create A Team Name"
