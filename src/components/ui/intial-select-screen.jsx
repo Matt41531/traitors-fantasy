@@ -7,20 +7,21 @@ import { traitorImgs } from "../../constants/traitorsImg";
 
 function InitialSelectScreen() {
   const { user, isLoaded } = useUser();
-  const [selectedTraitors, setSelectedTraitors] = useState([]);
+  const [selectedTraitor, setSelectedTraitor] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(
+    "Please Select A Predicted Winner"
+  );
   let navigate = useNavigate();
 
   function handleSelect(id) {
-    if (selectedTraitors.includes(id)) {
-      setSelectedTraitors(
-        selectedTraitors.filter((traitorId) => traitorId !== id)
+    if (selectedTraitor.includes(id)) {
+      setSelectedTraitor(
+        selectedTraitor.filter((traitorId) => traitorId !== id)
       );
+      setErrorMessage("Please Select A Predicted Winner");
     } else {
-      if (selectedTraitors.length < 1) {
-        setSelectedTraitors([...selectedTraitors, id]);
-      } else {
-        setSelectedTraitors([selectedTraitors[0], id]);
-      }
+      setSelectedTraitor([id]);
+      setErrorMessage("");
     }
   }
 
@@ -30,7 +31,7 @@ function InitialSelectScreen() {
         .from("users")
         .update([
           {
-            selected_winner: selectedTraitors[0],
+            selected_winner: selectedTraitor[0],
           },
         ])
         .eq("username", user.username);
@@ -44,24 +45,32 @@ function InitialSelectScreen() {
   }
 
   return (
-    <>
-      <div>
-        <h3> Select Your Winner Guess </h3>
-      </div>
+    <div className="flex flex-col items-center justify-center w-full">
+      <h2 className="font-bold m-5"> 🏆 Select Your Predicted Winner 🏆</h2>
       {traitorImgs.map((img) => (
         <img
           src={img.path}
           key={img.id}
           onClick={() => handleSelect(img.id)}
           className={`cursor-pointer p-1 ${
-            selectedTraitors.includes(img.id)
+            selectedTraitor.includes(img.id)
               ? "ring-4 ring-yellow-600"
               : "ring-0"
           } `}
         />
       ))}
-      <Button onClick={() => handleClick()}> Submit </Button>
-    </>
+      <p className="text-red-600">{errorMessage}</p>
+      <Button
+        className={`m-4 w-full ${
+          selectedTraitor.length == 1 ? "bg-green-500" : ""
+        }`}
+        onClick={() => handleClick()}
+        disabled={selectedTraitor.length !== 1}
+      >
+        {" "}
+        Submit 🏆{" "}
+      </Button>
+    </div>
   );
 }
 

@@ -18,9 +18,10 @@ function Leaderboard() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const { data: userRows, error: userError } = await supabase
-        .from("user_teams")
-        .select("team_name, traitors, selected_winner_name, total_points, username");
+    const { data: userRows, error: userError } = await supabase
+      .from("user_teams")
+      .select("team_name, traitors, selected_winner_name, total_points, username")
+      .order('total_points', { ascending: false });
 
       if (userError) {
         console.error("Error fetching user:", userError);

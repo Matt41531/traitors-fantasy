@@ -48,9 +48,9 @@ function TraitorsLayout() {
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center w-full">
       {userAccount == {} ? null : (
-        <div>
+        <div className="flex flex-col items-center justify-center w-full">
           <div>
             <Input
               type="text"
@@ -60,7 +60,7 @@ function TraitorsLayout() {
             ></Input>
           </div>
           <div>
-            <h3 className="font-light"> Select the 4 Players Drafted to Your Team</h3>
+            <h3 className="font-light"> 🗡️ Select the 4 Players Drafted to Your Team 🗡️</h3>
           </div>
           {traitorImgs.map((img) => (
             <img
@@ -80,7 +80,7 @@ function TraitorsLayout() {
           ></SubmitButton>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
