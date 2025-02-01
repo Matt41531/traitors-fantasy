@@ -18,34 +18,52 @@ function Leaderboard() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-    const { data: userRows, error: userError } = await supabase
-      .from("user_teams")
-      .select("team_name, traitors, selected_winner_name, total_points, username")
-      .order('total_points', { ascending: false });
+      // First get the league code for the current user
+      const { data: userLeague, error: leagueError } = await supabase
+        .from("user_leagues")
+        .select("league_code")
+        .eq("username", user.username)
+        .single();
+
+      if (leagueError) {
+        console.error("Error fetching league:", leagueError);
+        return;
+      }
+
+      // Then get all users in that league and their team data
+      const { data: userRows, error: userError } = await supabase
+        .from("user_teams")
+        .select("team_name, traitors, selected_winner_name, total_points, username")
+        .eq("league_code", userLeague.league_code)
+        .order('total_points', { ascending: false });
 
       if (userError) {
-        console.error("Error fetching user:", userError);
+        console.error("Error fetching users:", userError);
         return;
-      } else {
-        setUsersData(userRows);
       }
+
+      setUsersData(userRows);
 
       const currentUser = userRows.find(
         (userData) => userData.username === user.username
       );
       if (currentUser) {
-        setCurrentUserPoints(currentUser.total_points); // Set the current user's total points
+        setCurrentUserPoints(currentUser.total_points);
       }
     };
-    fetchUsers();
-  }, [user.username]);
+    
+    if (user?.username) {
+      fetchUsers();
+    }
+  }, [user?.username]);
+
   return (
     <>
       <div className="flex justify-center items-center w-full md:w-3/4">
         {usersData ? (
           <Table>
             <TableCaption>
-              Traitor&apos;s Season 3 Current Leaderboard
+              Traitor&apos;s Season 3 League Leaderboard
             </TableCaption>
             <TableHeader>
               <TableRow>
