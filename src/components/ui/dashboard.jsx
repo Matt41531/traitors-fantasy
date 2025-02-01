@@ -23,6 +23,7 @@ function Dashboard() {
 
       if (leagueError) {
         console.error("Error fetching league:", leagueError);
+        navigate("/league");
       } else {
         setLeagueCode(leagueData.league_code);
       }
@@ -84,7 +85,7 @@ function Dashboard() {
           <p className="text-sm text-gray-500 mb-1">League Code:</p>
           <button
             onClick={handleCopyCode}
-            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors"
+            className="px-4 py-2 bg-gray-400 rounded hover:bg-gray-800 transition-colors"
           >
             <span className="font-mono">{leagueCode}</span>
             {copySuccess ? (

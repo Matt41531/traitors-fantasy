@@ -127,7 +127,7 @@ function LeagueSetup() {
         throw userLeagueError;
       }
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error("Error:", error);
       setError(error.message || "An error occurred. Please try again.");
