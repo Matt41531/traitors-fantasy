@@ -22,21 +22,22 @@ function SubmitButton({ selectedTraitors, teamName }) {
 
   async function handleClick() {
     if (isLoaded) {
-      const { data, error } = await supabase.from("users").insert([
-        {
-          username: user.username,
+      const { data, error } = await supabase
+        .from("users")
+        .update({
           team_name: teamName,
           traitor_1: selectedTraitors[0],
           traitor_2: selectedTraitors[1],
           traitor_3: selectedTraitors[2],
           traitor_4: selectedTraitors[3],
           total_points: 0,
-        },
-      ]);
+        })
+        .eq("username", user.username);
+
       if (error) {
-        console.log("Error inserting data");
+        console.log("Error updating data");
       } else {
-        console.log("Data inserted: ", data);
+        console.log("Data updated: ", data);
         navigate("/draft-winner");
       }
     }

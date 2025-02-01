@@ -3,12 +3,14 @@ import { useUser } from "@clerk/clerk-react";
 import supabase from "../../supabaseClient";
 import Leaderboard from "./leaderboard";
 import { useNavigate } from "react-router";
+import { Button } from "./button";
 
 function Dashboard() {
   const { user } = useUser();
   const [selectedTraitors, setSelectedTraitors] = useState([]);
   const navigate = useNavigate();
   
+
   useEffect(() => {
     const fetchTraitors = async () => {
       const { data: dashboardData, error: dashboardError } = await supabase
@@ -21,7 +23,7 @@ function Dashboard() {
 
       if (dashboardError) {
         console.error("Error fetching user:", dashboardError);
-        navigate('/draft');
+        // navigate('/draft');
         return;
       } else {
         const formattedTraitors = [
@@ -51,21 +53,30 @@ function Dashboard() {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="flex flex-col justify-center items-center w-full">
-        <Leaderboard></Leaderboard>
-        <div className="flex flex-col justify-center items-center w-full md:flex-row">
-          {selectedTraitors.map((traitor) => (
-            <div className="m-5" key={traitor.path}>
-              <img src={traitor.path} />
-              <p className="font-light">
-                {" "}
-                Current Points:{" "}
-                <span className="font-bold text-yellow-600">
-                  {traitor.current_points}
-                </span>{" "}
-              </p>
+        { selectedTraitors.length === 0 ? (
+          <div>
+            <div className="text-center text-2xl font-bold">No Traitors Selected</div>
+            <Button onClick={() => navigate('/draft')}>Go to Draft</Button>
+          </div>
+        ) : (
+          <>
+            <Leaderboard></Leaderboard>
+            <div className="flex flex-col justify-center items-center w-full md:flex-row">
+              {selectedTraitors.map((traitor) => (
+                <div className="m-5" key={traitor.path}>
+                  <img src={traitor.path} />
+                  <p className="font-light">
+                    {" "}
+                    Current Points:{" "}
+                    <span className="font-bold text-yellow-600">
+                      {traitor.current_points}
+                    </span>{" "}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

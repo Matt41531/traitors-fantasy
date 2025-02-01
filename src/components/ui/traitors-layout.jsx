@@ -27,7 +27,7 @@ function TraitorsLayout() {
         return;
       } else if (userAccount) {
         setUserAccount(userAccount);
-        navigate('/draft-winner');
+        //navigate('/draft-winner');
       }
     };
     fetchTraitors();

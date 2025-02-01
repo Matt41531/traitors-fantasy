@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { BrowserRouter, Routes, Route } from "react-router";
-import InitialSelectScreen from "./components/ui/intial-select-screen";
+import InitialSelectScreen from "./components/ui/initial-select-screen";
 import ScrollToTop from "./components/ui/scroll-to-top";
 import TraitorsLayout from "./components/ui/traitors-layout";
 
